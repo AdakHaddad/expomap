@@ -324,10 +324,10 @@ export default function BoothMapInteractive() {
     <div className="min-h-screen bg-gray-50 text-gray-900 p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-          GIK Booth Interactive Map
+          DTETI Capstone Booth Map
         </h1>
         <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
-          Click to view details
+          (click the booth for detail)
         </p>
 
         <div className="grid lg:grid-cols-4 gap-4 md:gap-6">
