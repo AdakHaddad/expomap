@@ -333,7 +333,7 @@ export default function BoothMapInteractive() {
         <div className="grid lg:grid-cols-4 gap-4 md:gap-6">
           {/* Map */}
           <div className="lg:col-span-3">
-            <div className="bg-white border border-gray-400 rounded-2xl p-3 md:p-4 overflow-hidden shadow-sm">
+            <div className="bg-white border border-gray-400 rounded-2xl overflow-hidden shadow-sm">
               <div className="relative w-full" style={{ paddingBottom: '83.33%' }}>
                 <canvas
                   ref={canvasRef}
@@ -422,18 +422,11 @@ export default function BoothMapInteractive() {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="grid grid-cols-1 gap-2 text-xs">
                     <div className="bg-gray-100 border border-gray-400 rounded p-2">
                       <div className="text-gray-700 mb-1 font-medium">Code</div>
                       <div className="font-bold text-gray-800">
                         {selectedBooth.code}
-                      </div>
-                    </div>
-                    <div className="bg-gray-100 border border-gray-400 rounded p-2">
-                      <div className="text-gray-700 mb-1 font-medium">Position</div>
-                      <div className="font-bold text-gray-800">
-                        ({selectedBooth.centerX.toFixed(0)},{" "}
-                        {selectedBooth.centerY.toFixed(0)})
                       </div>
                     </div>
                   </div>
