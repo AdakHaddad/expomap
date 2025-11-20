@@ -321,19 +321,19 @@ export default function BoothMapInteractive() {
     : boothData;
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 p-4 md:p-6">
+    <div className="min-h-screen bg-gray-50 text-gray-900 p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-2xl md:text-3xl font-bold text-[#FFD700] mb-2">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
           GIK Booth Interactive Map
         </h1>
-        <p className="text-sm md:text-base text-[#87CEEB] mb-4 md:mb-6">
-          {filteredBooths.length} booths mapped - Click to view details
+        <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
+          Click to view details
         </p>
 
         <div className="grid lg:grid-cols-4 gap-4 md:gap-6">
           {/* Map */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-100 border border-gray-300 rounded-2xl p-3 md:p-4 overflow-hidden">
+            <div className="bg-white border border-gray-400 rounded-2xl p-3 md:p-4 overflow-hidden shadow-sm">
               <div className="relative w-full" style={{ paddingBottom: '83.33%' }}>
                 <canvas
                   ref={canvasRef}
@@ -341,7 +341,7 @@ export default function BoothMapInteractive() {
                   height={500}
                   onClick={handleCanvasClick}
                   onMouseMove={handleCanvasMove}
-                  className="absolute inset-0 w-full h-full border border-gray-300 rounded-lg bg-white"
+                  className="absolute inset-0 w-full h-full border border-gray-400 rounded-lg bg-white"
                 />
               </div>
             </div>
@@ -350,8 +350,8 @@ export default function BoothMapInteractive() {
           {/* Details Panel */}
           <div className="lg:col-span-2">
             {/* Filters */}
-            <div className="bg-gray-100 border border-gray-300 rounded-xl p-3 md:p-4 mb-4">
-              <label className="text-sm text-gray-700 block mb-3">
+            <div className="bg-white border border-gray-400 rounded-xl p-3 md:p-4 mb-4 shadow-sm">
+              <label className="text-sm text-gray-800 block mb-3 font-medium">
                 Category Filter
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -359,8 +359,8 @@ export default function BoothMapInteractive() {
                   onClick={() => setSelectedCategory(null)}
                   className={`py-2 px-3 rounded text-xs font-semibold transition-all ${
                     selectedCategory === null
-                      ? "bg-[#FFD700] text-white"
-                      : "bg-gray-200 border border-gray-300 text-gray-700"
+                      ? "bg-gray-800 text-white"
+                      : "bg-gray-100 border border-gray-400 text-gray-800 hover:bg-gray-200"
                   }`}
                 >
                   All
@@ -372,16 +372,16 @@ export default function BoothMapInteractive() {
                     className={`py-2 px-3 rounded text-xs font-semibold transition-all ${
                       selectedCategory === cat.code
                         ? "border-2"
-                        : "border border-gray-300"
+                        : "border border-gray-400"
                     }`}
                     style={{
                       backgroundColor:
                         selectedCategory === cat.code
-                          ? `${cat.color}30`
+                          ? `${cat.color}20`
                           : "transparent",
                       borderColor:
                         selectedCategory === cat.code ? cat.color : undefined,
-                      color: cat.color,
+                      color: selectedCategory === cat.code ? cat.color : "#374151",
                     }}
                   >
                     {cat.code}
@@ -391,7 +391,7 @@ export default function BoothMapInteractive() {
             </div>
 
             {/* Booth Details */}
-            <div className="bg-gray-100 border border-gray-300 rounded-xl p-3 md:p-4 h-fit lg:sticky lg:top-24">
+            <div className="bg-white border border-gray-400 rounded-xl p-3 md:p-4 h-fit lg:sticky lg:top-24 shadow-sm">
               {selectedBooth ? (
                 <div className="space-y-3 md:space-y-4">
                   <div>
@@ -400,7 +400,7 @@ export default function BoothMapInteractive() {
                         className="w-4 h-4 md:w-5 md:h-5 rounded-full shrink-0"
                         style={{ backgroundColor: selectedBooth.color }}
                       ></div>
-                      <span className="text-lg md:text-xl font-semibold text-[#FFD700]">
+                      <span className="text-lg md:text-xl font-semibold text-gray-800">
                         {selectedBooth.code}
                       </span>
                     </div>
@@ -416,25 +416,22 @@ export default function BoothMapInteractive() {
                     </p>
                   </div>
 
-                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 md:p-3">
+                  <div className="bg-gray-50 border border-gray-300 rounded-lg p-2 md:p-3">
                     <p className="text-gray-800 text-sm">
                       {selectedBooth.description}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="bg-gray-200 border border-gray-300 rounded p-2">
-                      <div className="text-gray-600 mb-1">Code</div>
-                      <div className="font-bold text-[#FFD700]">
+                    <div className="bg-gray-100 border border-gray-400 rounded p-2">
+                      <div className="text-gray-700 mb-1 font-medium">Code</div>
+                      <div className="font-bold text-gray-800">
                         {selectedBooth.code}
                       </div>
                     </div>
-                    <div className="bg-gray-200 border border-gray-300 rounded p-2">
-                      <div className="text-gray-600 mb-1">Position</div>
-                      <div
-                        className="font-bold"
-                        style={{ color: selectedBooth.color }}
-                      >
+                    <div className="bg-gray-100 border border-gray-400 rounded p-2">
+                      <div className="text-gray-700 mb-1 font-medium">Position</div>
+                      <div className="font-bold text-gray-800">
                         ({selectedBooth.centerX.toFixed(0)},{" "}
                         {selectedBooth.centerY.toFixed(0)})
                       </div>
@@ -443,7 +440,7 @@ export default function BoothMapInteractive() {
 
                   <button
                     onClick={() => setSelectedBooth(null)}
-                    className="w-full bg-[#FFD700] text-white py-2 rounded font-semibold text-sm hover:shadow-lg transition-all"
+                    className="w-full bg-gray-800 text-white py-2 rounded font-semibold text-sm hover:bg-gray-700 transition-all"
                   >
                     Clear
                   </button>
@@ -451,10 +448,10 @@ export default function BoothMapInteractive() {
               ) : (
                 <div className="text-center py-8 md:py-12">
                   <div className="text-2xl md:text-3xl mb-3">👆</div>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-700 text-sm">
                     Click on a booth to view details
                   </p>
-                  <p className="text-gray-500 text-xs mt-4">
+                  <p className="text-gray-600 text-xs mt-4">
                     Total: {boothData.length} booths
                   </p>
                 </div>
@@ -464,8 +461,8 @@ export default function BoothMapInteractive() {
         </div>
 
         {/* Booth Grid */}
-        <div className="mt-6 md:mt-8 bg-gray-100 border border-gray-300 rounded-xl p-4 md:p-6">
-          <h2 className="text-lg md:text-xl font-bold text-[#FFD700] mb-4">
+        <div className="mt-6 md:mt-8 bg-white border border-gray-400 rounded-xl p-4 md:p-6 shadow-sm">
+          <h2 className="text-lg md:text-xl font-bold text-gray-800 mb-4">
             All Booths ({filteredBooths.length})
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
@@ -475,8 +472,8 @@ export default function BoothMapInteractive() {
                 onClick={() => setSelectedBooth(booth)}
                 className={`bg-gray-50 border rounded-lg p-2 md:p-3 cursor-pointer transition-all hover:scale-105 ${
                   selectedBooth?.code === booth.code
-                    ? "border-2"
-                    : "border-gray-300 hover:border-gray-400"
+                    ? "border-2 shadow-md"
+                    : "border-gray-400 hover:border-gray-500"
                 }`}
                 style={{
                   borderColor:
@@ -495,10 +492,7 @@ export default function BoothMapInteractive() {
                     style={{ backgroundColor: booth.color }}
                   ></div>
                   <div className="flex-1 min-w-0">
-                    <div
-                      className="font-bold text-sm"
-                      style={{ color: booth.color }}
-                    >
+                    <div className="font-bold text-sm text-gray-800">
                       {booth.code}
                     </div>
                     <p className="text-xs text-gray-600 truncate">
