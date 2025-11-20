@@ -209,8 +209,8 @@ export default function BoothMapInteractive() {
         let logo = "";
 
         if (apiTeam) {
-          title = apiTeam.judul;
-          description = apiTeam.description;
+          title = apiTeam.judul || code;
+          description = apiTeam.description || "Booth";
           logo = apiTeam.logo;
         } else {
            // Check hardcoded fallback only if API returned nothing for this code

@@ -47,10 +47,10 @@ export async function getTeams(): Promise<Team[]> {
     // The library converts headers to keys.
 
     const teams: Team[] = rows.map((row) => ({
-      teamCode: row.get('Team Code') || row.get('team code') || '',
-      judul: row.get('Judul') || row.get('judul') || '',
-      description: row.get('Description') || row.get('description') || '',
-      logo: row.get('Logo') || row.get('logo') || '',
+      teamCode: row.get('Tim') || '',
+      judul: row.get('Judul') || '',
+      description: row.get('Deskripsi/Slogan') || '',
+      logo: row.get('Logo') || '',
     }));
 
     return teams;
