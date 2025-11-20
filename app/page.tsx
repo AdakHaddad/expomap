@@ -59,12 +59,12 @@ const boothDescriptions: Record<
 };
 
 const CATEGORIES = [
-  { code: "A", color: "#FFD700", label: "Smart Grid" },
-  { code: "B", color: "#87CEEB", label: "Health" },
-  { code: "C", color: "#90EE90", label: "Safety" },
-  { code: "D", color: "#DDA0DD", label: "Agriculture" },
-  { code: "E", color: "#FFB6C1", label: "Climate" },
-  { code: "F", color: "#FFD700", label: "Heritage" },
+  { code: "A", color: "#FFD700", label: "Smart Grid and Energy Management / SDG-7" },
+  { code: "B", color: "#87CEEB", label: "Wearable Health and Diagnosis / SDG-3" },
+  { code: "C", color: "#90EE90", label: "Public Safe and Culture / SDG-11" },
+  { code: "D", color: "#DDA0DD", label: "Smart Agriculture and Aquaculture / SDG-12" },
+  { code: "E", color: "#FFB6C1", label: "Climate and Waste Management / SDG-12" },
+  { code: "F", color: "#FFD700", label: "National Heritage and Conservation / SDG-15" },
 ];
 
 // Booth position data (imported from booth-positions.json)
