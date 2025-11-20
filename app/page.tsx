@@ -330,6 +330,47 @@ export default function BoothMapInteractive() {
           (click the booth for detail)
         </p>
 
+        {/* Category Filter */}
+        <div className="bg-white border border-gray-400 rounded-lg p-2 md:p-3 mb-4 shadow-sm">
+          <label className="text-xs text-gray-800 block mb-2 font-medium">
+            Category Filter
+          </label>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className={`py-1 px-2 rounded text-xs font-semibold transition-all ${
+                selectedCategory === null
+                  ? "bg-gray-800 text-white"
+                  : "bg-gray-100 border border-gray-400 text-gray-800 hover:bg-gray-200"
+              }`}
+            >
+              All
+            </button>
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.code}
+                onClick={() => setSelectedCategory(cat.code)}
+                className={`py-1 px-2 rounded text-xs font-semibold transition-all ${
+                  selectedCategory === cat.code
+                    ? "border-2"
+                    : "border border-gray-400"
+                }`}
+                style={{
+                  backgroundColor:
+                    selectedCategory === cat.code
+                      ? `${cat.color}20`
+                      : "transparent",
+                  borderColor:
+                    selectedCategory === cat.code ? cat.color : undefined,
+                  color: selectedCategory === cat.code ? cat.color : "#374151",
+                }}
+              >
+                {cat.code}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="grid lg:grid-cols-4 gap-4 md:gap-6">
           {/* Map */}
           <div className="lg:col-span-3">
@@ -349,47 +390,6 @@ export default function BoothMapInteractive() {
 
           {/* Details Panel */}
           <div className="lg:col-span-1">
-            {/* Filters */}
-            <div className="bg-white border border-gray-400 rounded-xl p-3 md:p-4 mb-4 shadow-sm">
-              <label className="text-sm text-gray-800 block mb-3 font-medium">
-                Category Filter
-              </label>
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  onClick={() => setSelectedCategory(null)}
-                  className={`py-2 px-3 rounded text-xs font-semibold transition-all ${
-                    selectedCategory === null
-                      ? "bg-gray-800 text-white"
-                      : "bg-gray-100 border border-gray-400 text-gray-800 hover:bg-gray-200"
-                  }`}
-                >
-                  All
-                </button>
-                {CATEGORIES.map((cat) => (
-                  <button
-                    key={cat.code}
-                    onClick={() => setSelectedCategory(cat.code)}
-                    className={`py-2 px-3 rounded text-xs font-semibold transition-all ${
-                      selectedCategory === cat.code
-                        ? "border-2"
-                        : "border border-gray-400"
-                    }`}
-                    style={{
-                      backgroundColor:
-                        selectedCategory === cat.code
-                          ? `${cat.color}20`
-                          : "transparent",
-                      borderColor:
-                        selectedCategory === cat.code ? cat.color : undefined,
-                      color: selectedCategory === cat.code ? cat.color : "#374151",
-                    }}
-                  >
-                    {cat.code}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Booth Details */}
             <div className="bg-white border border-gray-400 rounded-xl p-3 md:p-4 h-fit lg:sticky lg:top-24 shadow-sm">
               {selectedBooth ? (
