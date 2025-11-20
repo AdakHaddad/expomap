@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { Team } from "./lib/google-sheets";
 
 interface BoothData {
   code: string;
@@ -18,45 +19,8 @@ interface Booth {
   color: string;
   centerX: number;
   centerY: number;
+  logo?: string;
 }
-
-const boothDescriptions: Record<
-  string,
-  { title: string; description: string }
-> = {
-  "A-01": {
-    title: "IoT for Monitoring",
-    description: "Real-time energy monitoring system",
-  },
-  "A-02": {
-    title: "Smart Pot",
-    description: "Intelligent plant monitoring device",
-  },
-  "B-01": {
-    title: "Health Monitor Band",
-    description: "Wearable vital signs tracker",
-  },
-  "C-01": {
-    title: "Safety Alert System",
-    description: "Emergency notification platform",
-  },
-  "D-01": {
-    title: "Crop Monitor System",
-    description: "IoT sensor network for crops",
-  },
-  "D-02": {
-    title: "H.A.R.V.E.S.T",
-    description: "Humidity-based And Regulation for Vegetation, Environment, Soil, and Temperature",
-  },
-  "E-01": {
-    title: "Air Quality Monitor",
-    description: "Real-time pollution monitoring",
-  },
-  "F-01": {
-    title: "Heritage Database",
-    description: "Digital archive of artifacts",
-  },
-};
 
 const CATEGORIES = [
   { code: "A", color: "#FFD700", label: "Smart Grid and Energy Management / SDG-7" },
@@ -156,6 +120,7 @@ export default function BoothMapInteractive() {
   const [selectedBooth, setSelectedBooth] = useState<Booth | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [apiTeams, setApiTeams] = useState<Team[]>([]);
 
   // (rawBoothData is defined at module scope to avoid recreating on every render)
 
@@ -163,6 +128,22 @@ export default function BoothMapInteractive() {
     const img = new Image();
     img.src = "/map.png";
     img.onload = () => setMapImage(img);
+  }, []);
+
+  // Fetch teams from API
+  useEffect(() => {
+    async function fetchTeams() {
+      try {
+        const res = await fetch('/api/teams');
+        if (res.ok) {
+          const data = await res.json();
+          setApiTeams(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch teams", err);
+      }
+    }
+    fetchTeams();
   }, []);
 
   // Process booth data
@@ -218,16 +199,34 @@ export default function BoothMapInteractive() {
       Object.entries(boothCenters).forEach(([code, data]) => {
         const category = code.charAt(0);
         const categoryData = CATEGORIES.find((c) => c.code === category);
-        const descData = boothDescriptions[code] || { title: code, description: "Booth" };
+
+        // Find details from API data or fallback
+        const apiTeam = apiTeams.find(t => t.teamCode === code);
+
+        // Fallback static data if no API data
+        let title = code;
+        let description = "Booth";
+        let logo = "";
+
+        if (apiTeam) {
+          title = apiTeam.judul;
+          description = apiTeam.description;
+          logo = apiTeam.logo;
+        } else {
+           // Check hardcoded fallback only if API returned nothing for this code
+           // (optional: you might want to keep the hardcoded list as a fallback if API fails completely)
+           // Here we'll just use generic info if not found in API, assuming API is the source of truth if it returns
+        }
 
         processedBooths.push({
           code,
-          title: descData.title,
-          description: descData.description,
+          title,
+          description,
           category,
           color: categoryData?.color || "#FFFFFF",
           centerX: data.x / data.count,
           centerY: data.y / data.count,
+          logo
         });
       });
 
@@ -251,7 +250,7 @@ export default function BoothMapInteractive() {
     return () => {
       cancelled = true;
     };
-  }, [mapImage]);
+  }, [mapImage, apiTeams]);
 
   // Draw canvas
   useEffect(() => {
@@ -404,6 +403,9 @@ export default function BoothMapInteractive() {
                         {selectedBooth.code}
                       </span>
                     </div>
+                    {selectedBooth.logo && (
+                        <img src={selectedBooth.logo} alt="Team Logo" className="w-16 h-16 object-contain mb-2" />
+                    )}
                     <h3 className="text-base md:text-lg font-bold text-gray-900 mb-1">
                       {selectedBooth.title}
                     </h3>
